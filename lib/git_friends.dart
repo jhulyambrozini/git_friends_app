@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:git_friend/app/views/page/Home/Home.dart';
+import 'package:git_friend/app/views/page/home/home_page.dart';
 
 class GitFriends extends StatelessWidget {
   const GitFriends({super.key});
@@ -9,13 +9,14 @@ class GitFriends extends StatelessWidget {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: Colors.white,
       // brightness: systemOverlayStyle,
-      // primary: Colors.white10,
-      onPrimary: Colors.black87,
-      // secondary: secondary,
+      // primary: Colors.deepPurple,
+      // onPrimary: Colors.black87,
+      secondary: Colors.amberAccent,
+      tertiary: Colors.blueAccent,
       // onSecondary: onSecondary,
       // error: error,
       // onError: onError,
-      // background: Colors.black12,
+      background: const Color.fromARGB(255, 245, 245, 245),
       // onBackground: onBackground,
       // surface: surface,
       // onSurface: onSurface,
@@ -26,14 +27,27 @@ class GitFriends extends StatelessWidget {
       home: const HomePage(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-            backgroundColor: colorScheme.onPrimary,
-            // color: Colors.white,
-            titleTextStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-            )),
-        colorScheme: colorScheme,
+          titleTextStyle: const TextStyle(
+            color: Colors.black87,
+            fontSize: 24,
+          ),
+          iconTheme: const IconThemeData(
+            size: 30,
+            color: Colors.black87,
+          ),
+          titleSpacing: 0,
+          backgroundColor: colorScheme.background,
+        ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          displayMedium: TextStyle(fontSize: 20),
+          displaySmall: TextStyle(fontSize: 18, color: Colors.black54),
+          bodyLarge: TextStyle(fontSize: 18),
+          bodyMedium: TextStyle(fontSize: 16),
+          bodySmall: TextStyle(fontSize: 12),
+        ),
         useMaterial3: true,
+        colorScheme: colorScheme,
       ),
     );
   }
