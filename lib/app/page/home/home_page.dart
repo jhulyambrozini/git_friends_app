@@ -1,6 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:git_friend/app/views/page/favorites/favorites_page.dart';
-import 'package:git_friend/app/views/page/search_user/search_user_page.dart';
+import 'package:git_friend/infrastructure/repositores/api_github_repository_impl.dart';
+import 'package:git_friend/app/viewmodels/api_github_viewmodel.dart';
+import 'package:git_friend/app/page/favorites/favorites_page.dart';
+import 'package:git_friend/app/page/search_user/search_user_page.dart';
+import 'package:git_friend/app/page/search_user/search_user_page_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +17,11 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = [
-    const SearchUserPage(),
+    SearchUserPage(SearchUserPageController(
+      ApiGitHubViewModel(
+        ApiGitHubRepositoryImpl(Dio()),
+      ),
+    )),
     const Favoritespage(),
   ];
 

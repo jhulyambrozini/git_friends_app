@@ -13,14 +13,14 @@ class SearchInputWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18, left: 16, right: 16, top: 0),
       child: TextField(
-        onChanged: onSearch,
+        onSubmitted: onSearch,
         decoration: const InputDecoration(
-          suffixIcon: Icon(Icons.search_outlined),
-          hintText: 'Busque por usuário...',
-          hintStyle: TextStyle(fontWeight: FontWeight.normal),
-          border: UnderlineInputBorder(
-            borderSide: BorderSide(strokeAlign: 23),
+          prefixIcon: Icon(
+            Icons.search_outlined,
+            size: 24,
           ),
+          hintText: 'Busque por usuário...',
+          hintStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
         ),
       ),
     );

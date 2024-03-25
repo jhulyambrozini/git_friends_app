@@ -1,5 +1,5 @@
-import 'package:git_friend/app/shared/dependency_injector.dart';
-import 'package:git_friend/app/views/page/search_user/search_user_page_controller.dart';
+import 'package:git_friend/shared/dependency_injector/dependency_injector.dart';
+import 'package:git_friend/app/page/search_user/search_user_page_controller.dart';
 
 class Injects {
   static initialize() {
