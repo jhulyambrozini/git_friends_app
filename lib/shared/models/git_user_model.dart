@@ -46,15 +46,8 @@ class GitUserModel {
       following: json['following'],
     );
   }
-}
 
-// class UserReposModel {
-//   // https://api.github.com/users/$user/repos
-//   num id;
-//   String name;
-//   String html_url;
-//   String description;
-//   String language;
-//   String created_at;
-//   String updated_at;
-// }
+  @override
+  String toString() =>
+      'GitUserModel(userId: $userId, login: $login, avatar: $avatar, url: $url, name: $name, email: $email, blog: $blog, description: $description, twitter: $twitter, reposQuantity: $reposQuantity, followers: $followers, following: $following)';
+}

@@ -1,76 +1,29 @@
 import 'package:auto_injector/auto_injector.dart';
+import 'package:git_friend/app/page/favorites/favorites_page_viewmodel.dart';
+import 'package:git_friend/app/page/search_user/search_page_viewmodel.dart';
+import 'package:git_friend/infrastructure/git_friend_api.dart';
+import 'package:git_friend/infrastructure/repositores/api_github_repository.dart';
+import 'package:git_friend/infrastructure/repositores/api_github_repository_impl.dart';
 
-abstract class DependencyInjector {
-  dynamic get instance;
+class DependencyInjector {
+  final injector = AutoInjector();
 
-  ///Buscar dependência injetada
-  I get<I>();
+  DependencyInjector() {
+    injector.addSingleton<ApiGitHubRepository>(ApiGitHubRepositoryImpl.new);
+    injector.addSingleton(GitFriendsApi.new);
 
-  ///Buscar dependência injetada ou retorna nulo
-  I? tryGet<I>();
+    injector.add(SearchPageViewModel.new);
+    injector.add(FavoritesPageViewModel.new);
 
-  ///Adicionar dependencia pelo metodo **.new**
-  void add<I>(Function instace);
+    // injector
+    //     .addSingleton<RequestRepository>(CancellationRequestRepositoryImpl.new);
+    // injector.addSingleton<UserRepository>(UserRepositoryImpl.new);
+    // injector.addSingleton(GestorAuthApi.new);
 
-  ///Adicionar dependencia instaciada. EXEMP: Database();
-  void addInstance<I>(I instace);
+    // injector.add(CancellationRequestViewModel.new);
+    // injector.add(ConfirmedRequestViewModel.new);
+    // injector.add(UserViewModel.new);
 
-  ///Adicionar dependencia pelo metodo **.new**
-  void addLazySingleton<I>(Function instace);
-
-  ///Adicionar dependencia pelo metodo **.new**
-  void addSingleton<I>(Function instace);
-
-  ///Remove dependencia pela  inteface.
-  void disposeSingleton<I>();
-
-  ///Finaliza as injeções.
-  void finish();
-}
-
-class DependencyInjectorImpl extends DependencyInjector {
-  static final _injector = AutoInjector();
-
-  @override
-  DependencyInjectorImpl get instance => this;
-
-  @override
-  void add<I>(Function instace) {
-    _injector.add<I>(instace);
-  }
-
-  @override
-  void addInstance<I>(I instace) {
-    _injector.addInstance<I>(instace);
-  }
-
-  @override
-  void addLazySingleton<I>(Function instace) {
-    _injector.addLazySingleton<I>(instace);
-  }
-
-  @override
-  void addSingleton<I>(Function instace) {
-    _injector.addSingleton<I>(instace);
-  }
-
-  @override
-  void finish() {
-    _injector.commit();
-  }
-
-  @override
-  I get<I>() {
-    return _injector.get<I>();
-  }
-
-  @override
-  I? tryGet<I>() {
-    return _injector.tryGet<I>();
-  }
-
-  @override
-  void disposeSingleton<I>() {
-    _injector.disposeSingleton<I>();
+    injector.commit();
   }
 }

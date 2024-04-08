@@ -1,23 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:git_friend/app/page/search_user/search_user_page_controller.dart';
+import 'package:git_friend/app/page/search_user/search_page_viewmodel.dart';
+import 'package:git_friend/app/widgets/card_user_widget.dart';
 import 'package:git_friend/app/widgets/empty_user_list_widget.dart';
 import 'package:git_friend/app/widgets/search_input_widget.dart';
 import 'package:git_friend/app/widgets/user_tile_widget.dart';
-import 'package:git_friend/infrastructure/storage/git_user_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:git_friend/shared/dependency_injector/dependency_injector.dart';
+import 'package:git_friend/shared/models/git_user_model.dart';
+import 'package:git_friend/shared/models/git_user_repos_model.dart';
 
-class SearchUserPage extends StatelessWidget {
-  final SearchUserPageController _controller;
-  const SearchUserPage(this._controller, {super.key});
+class SearchUserPage extends StatefulWidget {
+  const SearchUserPage({super.key});
+
+  @override
+  State<SearchUserPage> createState() => _SearchUserPageState();
+}
+
+class _SearchUserPageState extends State<SearchUserPage> {
+  late SearchPageViewModel _viewModel;
+  final _dependencyInjector = DependencyInjector();
+
+  final _inputController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = _dependencyInjector.injector.get<SearchPageViewModel>();
+  }
+
+  Future<dynamic> showUserCard(
+      GitUserModel user, List<GitUserReposModel> userRepos) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return UserCardWidget(
+          user: user,
+          userRepos: userRepos,
+          onToggleFavorite: () {},
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final userProvider = Provider.of<GitUserProvider>(context);
 
-    return ValueListenableBuilder(
-      valueListenable: _controller.userSearch,
-      builder: (ctx, model, child) => SingleChildScrollView(
+    return ListenableBuilder(
+      listenable: _viewModel,
+      builder: (ctx, _) => SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -29,40 +59,36 @@ class SearchUserPage extends StatelessWidget {
               ),
             ),
             SearchInputWidget(
-                onSearch: (value) => _controller.setUserSearch(value)),
-            ValueListenableBuilder(
-              valueListenable: _controller.user,
-              builder: (context, user, child) {
-                if (user != null) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 20, bottom: 12),
-                          child: Text(
-                            'Usuário: ${_controller.userSearch.value}',
-                            style: theme.textTheme.displayMedium,
-                          )),
-                      SizedBox(
-                        height: (98 * 1)
-                            .toDouble(), // Ajuste a altura conforme o número de usuários
-                        child: ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, idx) => UserTileWidget(
-                              user: user,
-                              onToggleFavorite: () {
-                                userProvider.toggleFavorite(user);
-                                Navigator.of(context).pop();
-                              }),
-                        ),
-                      )
-                    ],
-                  );
-                } else {
-                  return const EmptyUserListWidget();
-                }
-              },
+                inputController: _inputController,
+                onSearch: (value) => {
+                      setState(() {
+                        _inputController.text = value;
+                      }),
+                      _viewModel.onSearch(_inputController.text)
+                    }),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 20, bottom: 12),
+                  child: Text(
+                    'Usuário: ${_inputController.text}',
+                    style: theme.textTheme.displayMedium,
+                  ),
+                ),
+                if (_viewModel.gitUser != null)
+                  UserTileWidget(
+                    user: _viewModel.gitUser!,
+                    onPressed: () {
+                      _viewModel.onPress(_viewModel.gitUser!.login);
+                      if (_viewModel.listRepos.isNotEmpty) {
+                        showUserCard(_viewModel.gitUser!, _viewModel.listRepos);
+                      }
+                    },
+                  ),
+                if (_viewModel.gitUser == null) const EmptyUserListWidget(),
+              ],
             ),
           ],
         ),
