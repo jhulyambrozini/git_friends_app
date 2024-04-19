@@ -55,8 +55,7 @@ class UserCardWidget extends StatelessWidget {
                       style: theme.textTheme.bodyMedium),
                   const Divider(),
                   if (user.description != null)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Wrap(
                       children: [
                         Text('Descrição:', style: theme.textTheme.bodyLarge),
                         Text(user.description ?? '',
@@ -72,15 +71,38 @@ class UserCardWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                          '/blog: ${user.blog != '' ? user.blog : 'não informado'}',
-                          style: theme.textTheme.bodyMedium),
+                      Row(
+                        children: [
+                          Text('/blog: ',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.black87,
+                              )),
+                          Text(user.blog != '' ? user.blog : 'não informado',
+                              style: theme.textTheme.bodyMedium),
+                        ],
+                      ),
                       const SizedBox(width: 18),
-                      Text('/email: ${user.email ?? 'não informado'}',
-                          style: theme.textTheme.bodyMedium),
+                      Row(
+                        children: [
+                          Text('/email: ',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.black87,
+                              )),
+                          Text(user.email ?? 'não informado',
+                              style: theme.textTheme.bodyMedium),
+                        ],
+                      ),
                       const SizedBox(width: 18),
-                      Text('/twitter: ${user.twitter ?? 'não informado'}',
-                          style: theme.textTheme.bodyMedium),
+                      Row(
+                        children: [
+                          Text('/twitter: ',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.black87,
+                              )),
+                          Text(user.twitter ?? 'não informado',
+                              style: theme.textTheme.bodyMedium),
+                        ],
+                      ),
                     ],
                   ),
                   if (user.reposQuantity != 0)
@@ -94,7 +116,7 @@ class UserCardWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         SizedBox(
-                          height: userRepos.length * 20,
+                          height: screenSize.height * 0.3,
                           child: ListView.builder(
                               itemCount: userRepos.length,
                               itemBuilder: (ctx, idx) {
@@ -103,29 +125,70 @@ class UserCardWidget extends StatelessWidget {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('/nome: ${repo.name}',
-                                        style: theme.textTheme.bodyMedium),
-                                    Text('/linguagem: ${repo.language ?? ''}',
-                                        style: theme.textTheme.bodyMedium),
+                                    Wrap(children: [
+                                      Text(
+                                        '/nome: ',
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                      Text(repo.name,
+                                          style: theme.textTheme.bodyMedium),
+                                    ]),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '/linguagem: ',
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                        Text(repo.language ?? '',
+                                            style: theme.textTheme.bodyMedium),
+                                      ],
+                                    ),
                                     if (userRepos[idx].description != null)
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Wrap(
                                         children: [
-                                          Text('/descrição:',
-                                              style:
-                                                  theme.textTheme.bodyMedium),
+                                          Text(
+                                            '/descrição:',
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                              color: Colors.black87,
+                                            ),
+                                          ),
                                           Text(
                                             repo.description!,
                                             style: theme.textTheme.bodyMedium,
                                           ),
                                         ],
                                       ),
-                                    Text('/criado em: ${repo.createdAt ?? ''}',
-                                        style: theme.textTheme.bodyMedium),
-                                    Text(
-                                        '/atualizando em: ${repo.updatedAt ?? ''}',
-                                        style: theme.textTheme.bodyMedium),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '/criado em: ',
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                        Text(repo.createdAt ?? '',
+                                            style: theme.textTheme.bodyMedium),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '/atualizando em: ',
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(color: Colors.black87),
+                                        ),
+                                        Text(repo.updatedAt ?? '',
+                                            style: theme.textTheme.bodyMedium),
+                                      ],
+                                    ),
                                     const Divider(),
                                   ],
                                 );

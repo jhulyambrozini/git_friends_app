@@ -29,7 +29,7 @@ class SearchPageViewModel with ChangeNotifier {
     if (!result.success) {
       isUserError = true;
       userError = result.message;
-    notifyListeners();
+      notifyListeners();
       return;
     }
 
@@ -39,15 +39,14 @@ class SearchPageViewModel with ChangeNotifier {
     return;
   }
 
-  Future<String?> onReposSearch() async {
-    isReposLoading = true;
+  Future<void> onReposSearch() async {
     final result = await _repository.getRepos(_username);
 
-    if (!result.success) return result.message;
+    if (!result.success) return;
 
     listRepos = [...result.data];
     notifyListeners();
 
-    return null;
+    return;
   }
 }
