@@ -23,6 +23,7 @@ class GitFriends extends StatelessWidget {
     );
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Git Friends',
       home: const HomePage(),
       theme: ThemeData(
