@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:git_friend/app/page/favorites/favorites_page.dart';
+import 'package:git_friend/app/page/home/home_page_viewmodel.dart';
 import 'package:git_friend/app/page/search_user/search_user_page.dart';
+import 'package:git_friend/shared/dependency_injector/dependency_injector.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,22 +12,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  final _di = DependencyInjector().injector;
+  late final HomePageViewModel _viewModel;
 
   static final List<Widget> _widgetOptions = [
     const SearchUserPage(),
     const Favoritespage(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = _di.get<HomePageViewModel>();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Git Friends'),
@@ -33,12 +37,12 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: theme.colorScheme.background,
         elevation: 0.5,
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: _widgetOptions.elementAt(_viewModel.selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: _viewModel.selectedIndex,
         iconSize: 32,
         type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
+        onTap: _viewModel.onItemTapped,
         items: const [
           BottomNavigationBarItem(
             label: 'Home',
