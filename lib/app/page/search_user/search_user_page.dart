@@ -19,8 +19,6 @@ class _SearchUserPageState extends State<SearchUserPage> {
   late SearchPageViewModel _viewModel;
   final _dependencyInjector = DependencyInjector();
 
-  final _inputController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -58,12 +56,12 @@ class _SearchUserPageState extends State<SearchUserPage> {
               ),
             ),
             SearchInputWidget(
-                inputController: _inputController,
+                inputController: _viewModel.inputController,
                 onSearch: (value) => {
                       setState(() {
-                        _inputController.text = value;
+                        _viewModel.inputController.text = value;
                       }),
-                      _viewModel.onSearch(_inputController.text)
+                      _viewModel.onSearch()
                     }),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,21 +70,31 @@ class _SearchUserPageState extends State<SearchUserPage> {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 20, bottom: 12),
                   child: Text(
-                    'Usuário: ${_inputController.text}',
+                    'Usuário: ${_viewModel.inputController.text}',
                     style: theme.textTheme.displayMedium,
                   ),
                 ),
-                if (_viewModel.gitUser != null)
+                if (_viewModel.isUserLoading)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                if (_viewModel.gitUser == null && _viewModel.isUserError)
+                  Center(
+                    child: Text(_viewModel.userError),
+                  ),
+                if (_viewModel.gitUser != null && !_viewModel.isUserLoading)
                   UserTileWidget(
                     user: _viewModel.gitUser!,
                     onPressed: () {
-                      _viewModel.onPress(_viewModel.gitUser!.login);
-                      if (_viewModel.listRepos.isNotEmpty) {
+                      _viewModel.onReposSearch();
+                      if (_viewModel.listRepos.isNotEmpty &&
+                          !_viewModel.isReposLoading) {
                         showUserCard(_viewModel.gitUser!, _viewModel.listRepos);
                       }
                     },
                   ),
-                if (_viewModel.gitUser == null) const EmptyUserListWidget(),
+                if (_viewModel.gitUser == null && !_viewModel.isUserLoading)
+                  const EmptyUserListWidget(),
               ],
             ),
           ],

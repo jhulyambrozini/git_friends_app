@@ -8,20 +8,46 @@ class SearchPageViewModel with ChangeNotifier {
   List<GitUserReposModel> listRepos = [];
   final ApiGitHubRepository _repository;
 
+  final inputController = TextEditingController();
+  String _username = '';
+
+  bool isUserLoading = false;
+  bool isReposLoading = false;
+  bool isUserError = false;
+  String userError = '';
+
   SearchPageViewModel(this._repository);
 
-  void onSearch(String username) async {
-    final userResponse = await _repository.getUser(username);
+  Future<void> onSearch() async {
+    if (inputController.text.isEmpty) return;
 
-    gitUser = userResponse;
+    _username = inputController.text.replaceAll(' ', '');
+    isUserLoading = true;
+    final result = await _repository.getUser(_username);
+
+    isUserLoading = false;
+    if (!result.success) {
+      isUserError = true;
+      userError = result.message;
+      notifyListeners();
+      return;
+    }
+
+    gitUser = result.data;
 
     notifyListeners();
+    return;
   }
 
-  void onPress(String username) async {
-    final reposResponse = await _repository.getRepos(username);
-    listRepos = [...reposResponse];
+  Future<void> onReposSearch() async {
+    final result = await _repository.getRepos(_username);
+
+    if (!result.success) return;
+
+    listRepos = [...result.data];
     notifyListeners();
+
+    return;
   }
 
   void onToggleFavorite() {

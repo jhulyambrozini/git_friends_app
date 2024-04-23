@@ -1,8 +1,7 @@
-import 'package:git_friend/shared/models/git_user_model.dart';
-import 'package:git_friend/shared/models/git_user_repos_model.dart';
+import 'package:git_friend/shared/utils/result_action_util.dart';
 
 abstract class ApiGitHubRepository {
-  Future<GitUserModel> getUser(String username);
+  Future<ResultActionDTO> getUser(String username);
 
-  Future<List<GitUserReposModel>> getRepos(String username);
+  Future<ResultActionDTO> getRepos(String username);
 }

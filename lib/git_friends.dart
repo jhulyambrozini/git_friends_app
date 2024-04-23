@@ -8,21 +8,11 @@ class GitFriends extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: Colors.white,
-      // brightness: systemOverlayStyle,
-      // primary: Colors.deepPurple,
-      // onPrimary: Colors.black87,
-      // secondary: Colors.amberAccent,
-      // tertiary: Colors.blueAccent,
-      // onSecondary: onSecondary,
-      // error: error,
-      // onError: onError,
       background: const Color.fromARGB(255, 245, 245, 245),
-      // onBackground: onBackground,
-      // surface: surface,
-      // onSurface: onSurface,
     );
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Git Friends',
       home: const HomePage(),
       theme: ThemeData(

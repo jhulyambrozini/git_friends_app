@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
-class GitFriendsApi {
+class ApiClientImpl {
   final Map<String, dynamic> _headers = {'content-type': 'application/json'};
-  Dio _dio = Dio();
+  Dio _dio;
 
-  GitFriendsApi() {
+  ApiClientImpl(this._dio) {
     _dio =
         Dio(BaseOptions(baseUrl: 'https://api.github.com', headers: _headers));
     // add intrceptos aqui

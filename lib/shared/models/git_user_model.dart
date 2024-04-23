@@ -50,4 +50,41 @@ class GitUserModel {
   @override
   String toString() =>
       'GitUserModel(userId: $userId, login: $login, avatar: $avatar, url: $url, name: $name, email: $email, blog: $blog, description: $description, twitter: $twitter, reposQuantity: $reposQuantity, followers: $followers, following: $following)';
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'userId': userId,
+      'login': login,
+      'avatar': avatar,
+      'url': url,
+      'name': name,
+      'blog': blog,
+      'email': email,
+      'description': description,
+      'twitter': twitter,
+      'reposQuantity': reposQuantity,
+      'followers': followers,
+      'following': following,
+      'isFavorite': isFavorite,
+    };
+  }
+
+  factory GitUserModel.fromMap(Map<String, dynamic> map) {
+    return GitUserModel(
+      userId: map['userId'] as int,
+      login: map['login'] as String,
+      avatar: map['avatar'] as String,
+      url: map['url'] as String,
+      name: map['name'] as String,
+      blog: map['blog'] as String,
+      email: map['email'] != null ? map['email'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
+      twitter: map['twitter'] != null ? map['twitter'] as String : null,
+      reposQuantity: map['reposQuantity'] as int,
+      followers: map['followers'] as int,
+      following: map['following'] as int,
+      isFavorite: map['isFavorite'] as bool,
+    );
+  }
 }
