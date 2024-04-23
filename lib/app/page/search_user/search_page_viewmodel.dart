@@ -23,4 +23,8 @@ class SearchPageViewModel with ChangeNotifier {
     listRepos = [...reposResponse];
     notifyListeners();
   }
+
+  void onToggleFavorite() {
+    notifyListeners();
+  }
 }

@@ -33,10 +33,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
       context: context,
       builder: (BuildContext context) {
         return UserCardWidget(
-          user: user,
-          userRepos: userRepos,
-          onToggleFavorite: () {},
-        );
+            user: user,
+            userRepos: userRepos,
+            onToggleFavorite: _viewModel.onToggleFavorite);
       },
     );
   }
