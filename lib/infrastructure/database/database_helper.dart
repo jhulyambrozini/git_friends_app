@@ -4,9 +4,9 @@ import 'package:git_friend/shared/models/git_user_repos_model.dart';
 abstract class DatabaseHelper {
   Future<void> initDatabase();
 
-  Future<void> insertUser(GitUserModel user);
+  Future<void> insertUser(Map<String, dynamic> user);
 
-  Future<List<GitUserModel>> getUsers();
+  Future<List<Map<String, dynamic>>> getUsers();
 
   Future<void> deleteUser(int userId);
 

@@ -33,8 +33,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
         return UserCardWidget(
             user: user,
             userRepos: userRepos,
-            onToggleFavorite: () =>
-                _viewModel.setFavoriteUser(user, userRepos));
+            onToggleFavorite: () => _viewModel.setFavoriteUser(userRepos));
       },
     );
   }

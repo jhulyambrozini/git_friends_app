@@ -52,10 +52,10 @@ class SearchPageViewModel with ChangeNotifier {
     return;
   }
 
-  Future<String?> setFavoriteUser(
-      GitUserModel user, List<GitUserReposModel> userRepos) async {
+  Future<String?> setFavoriteUser(List<GitUserReposModel> userRepos) async {
     if (gitUser == null) return null;
-    final result = await _dbMemoryRepository.setUserFavorite(user, userRepos);
+    final result =
+        await _dbMemoryRepository.setUserFavorite(gitUser!, userRepos);
 
     notifyListeners();
     if (!result.success) return result.message;

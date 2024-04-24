@@ -51,7 +51,6 @@ class GitUserModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'userId': userId,
       'login': login,
       'avatar': avatar,
       'url': url,

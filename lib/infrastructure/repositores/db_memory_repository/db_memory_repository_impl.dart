@@ -4,6 +4,7 @@ import 'package:git_friend/infrastructure/repositores/db_memory_repository/db_me
 import 'package:git_friend/shared/models/git_user_model.dart';
 import 'package:git_friend/shared/models/git_user_repos_model.dart';
 import 'package:git_friend/shared/utils/result_action_util.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DBMemoryRepositoryImpl implements DBMemoryRepository {
   final DatabaseHelper _db;
@@ -12,24 +13,16 @@ class DBMemoryRepositoryImpl implements DBMemoryRepository {
 
   @override
   Future<ResultActionDTO> setUserFavorite(
-      GitUserModel user, List<GitUserReposModel> repos) async {
+      GitUserModel gitUser, List<GitUserReposModel> repos) async {
     try {
+      final user = gitUser.toMap();
+      print(user);
+
       await _db.insertUser(user);
       await _db.insertRepository(repos);
       return ResultActionDTO.success();
-    } on DioException catch (error) {
-      final response = error.response;
-
-      if (response?.statusCode == null) {
-        return ResultActionDTO.failure(response!.data['message']);
-      }
-
-      if (response!.headers.map['content-type'] == null ||
-          response.headers.map['content-type']!.contains('text/html')) {
-        return ResultActionDTO.failure(response.data['message']);
-      }
-
-      return ResultActionDTO.failure(response.data['message']);
+    } on DatabaseException catch (error) {
+      return ResultActionDTO.failure(error.toString());
     } catch (error) {
       print('error in setUserFavorite => $error');
       return ResultActionDTO.failure(
@@ -43,19 +36,8 @@ class DBMemoryRepositoryImpl implements DBMemoryRepository {
     try {
       final usersList = await _db.getUsers();
       return ResultActionDTO.success(data: usersList);
-    } on DioException catch (error) {
-      final response = error.response;
-
-      if (response?.statusCode == null) {
-        return ResultActionDTO.failure(response!.data['message']);
-      }
-
-      if (response!.headers.map['content-type'] == null ||
-          response.headers.map['content-type']!.contains('text/html')) {
-        return ResultActionDTO.failure(response.data['message']);
-      }
-
-      return ResultActionDTO.failure(response.data['message']);
+    } on DatabaseException catch (error) {
+      return ResultActionDTO.failure(error.toString());
     } catch (error) {
       print('error in getUsersFavoritesList => $error');
       return ResultActionDTO.failure(
@@ -69,19 +51,8 @@ class DBMemoryRepositoryImpl implements DBMemoryRepository {
     try {
       final usersReposList = await _db.getRepositoriesByUserId(userId);
       return ResultActionDTO.success(data: usersReposList);
-    } on DioException catch (error) {
-      final response = error.response;
-
-      if (response?.statusCode == null) {
-        return ResultActionDTO.failure(response!.data['message']);
-      }
-
-      if (response!.headers.map['content-type'] == null ||
-          response.headers.map['content-type']!.contains('text/html')) {
-        return ResultActionDTO.failure(response.data['message']);
-      }
-
-      return ResultActionDTO.failure(response.data['message']);
+    } on DatabaseException catch (error) {
+      return ResultActionDTO.failure(error.toString());
     } catch (error) {
       print('error in getUserReposFavoriteList => $error');
       return ResultActionDTO.failure(

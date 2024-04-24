@@ -5,7 +5,7 @@ class HomePageViewModel with ChangeNotifier {
   final DatabaseHelper _database;
 
   HomePageViewModel(this._database) {
-    _initDatabase();
+    // _initDatabase();
   }
 
   int selectedIndex = 0;
@@ -15,8 +15,12 @@ class HomePageViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _initDatabase() async {
-    await _database.initDatabase();
-    notifyListeners();
-  }
+  // Future<void> _initDatabase() async {
+  //   try {
+  //     await _database.initDatabase();
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print('initDataBaseError: $e');
+  //   }
+  // }
 }

@@ -4,7 +4,7 @@ import 'package:git_friend/shared/utils/date_format.dart';
 
 class GitUserReposModel {
   // https://api.github.com/users/$user/repos
-  Int id;
+  int id;
   String name;
   String url;
   String? description;
@@ -40,7 +40,6 @@ class GitUserReposModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
       'name': name,
       'url': url,
       'description': description,

@@ -7,6 +7,10 @@ import 'package:path/path.dart';
 class DatabaseHelperImpl implements DatabaseHelper {
   late Database _db;
 
+  DatabaseHelperImpl() {
+    initDatabase();
+  }
+
   @override
   Future<void> initDatabase() async {
     final databasesPath = await getDatabasesPath();
@@ -17,7 +21,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
       version: 1,
       onCreate: (db, version) {
         db.execute('''
-          CREATE IF NOT EXISTS TABLE users(
+          CREATE TABLE IF NOT EXISTS users(
             user_id INTEGER PRIMARY KEY,
             login TEXT,
             avatar TEXT,
@@ -30,10 +34,10 @@ class DatabaseHelperImpl implements DatabaseHelper {
             repos_quantity INTEGER,
             followers INTEGER,
             following INTEGER,
-          )
+          );
         ''');
         db.execute('''
-          CREATE IF NOT EXISTS TABLE repositories(
+          CREATE TABLE IF NOT EXISTS repositories(
             id INTEGER PRIMARY KEY,
             user_id INTEGER,
             name TEXT,
@@ -43,22 +47,22 @@ class DatabaseHelperImpl implements DatabaseHelper {
             created_at TEXT NULL,
             updated_at TEXT NULL,
             FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
-          )
+          );
         ''');
       },
     );
   }
 
   @override
-  Future<void> insertUser(GitUserModel user) async {
-    await _db.insert('users', user.toMap());
+  Future<void> insertUser(Map<String, dynamic> user) async {
+    await _db.insert('users', user);
   }
 
   @override
-  Future<List<GitUserModel>> getUsers() async {
+  Future<List<Map<String, dynamic>>> getUsers() async {
     final List<Map<String, dynamic>> maps = await _db.query('users');
     return List.generate(maps.length, (i) {
-      return GitUserModel.fromMap(maps[i]);
+      return maps[i];
     });
   }
 
