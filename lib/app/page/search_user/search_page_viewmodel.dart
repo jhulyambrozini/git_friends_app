@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:git_friend/shared/models/git_user_model.dart';
-import 'package:git_friend/infrastructure/repositores/api_github_repository.dart';
+import 'package:git_friend/infrastructure/repositores/github_repository/api_github_repository.dart';
 import 'package:git_friend/shared/models/git_user_repos_model.dart';
 
 class SearchPageViewModel with ChangeNotifier {

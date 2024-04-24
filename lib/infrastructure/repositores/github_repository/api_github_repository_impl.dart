@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:git_friend/infrastructure/api/api_routes.dart';
 import 'package:git_friend/infrastructure/api/api_client_impl.dart';
 import 'package:git_friend/shared/models/git_user_model.dart';
-import 'package:git_friend/infrastructure/repositores/api_github_repository.dart';
+import 'package:git_friend/infrastructure/repositores/github_repository/api_github_repository.dart';
 import 'package:git_friend/shared/models/git_user_repos_model.dart';
 import 'package:git_friend/shared/utils/result_action_util.dart';
 

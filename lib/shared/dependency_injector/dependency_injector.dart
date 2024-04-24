@@ -6,8 +6,8 @@ import 'package:git_friend/app/page/search_user/search_page_viewmodel.dart';
 import 'package:git_friend/infrastructure/api/api_client_impl.dart';
 import 'package:git_friend/infrastructure/database/database_helper.dart';
 import 'package:git_friend/infrastructure/database/database_helper_impl.dart';
-import 'package:git_friend/infrastructure/repositores/api_github_repository.dart';
-import 'package:git_friend/infrastructure/repositores/api_github_repository_impl.dart';
+import 'package:git_friend/infrastructure/repositores/github_repository/api_github_repository.dart';
+import 'package:git_friend/infrastructure/repositores/github_repository/api_github_repository_impl.dart';
 
 class DependencyInjector {
   final injector = AutoInjector();
