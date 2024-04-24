@@ -30,7 +30,6 @@ class DatabaseHelperImpl implements DatabaseHelper {
             repos_quantity INTEGER,
             followers INTEGER,
             following INTEGER,
-            is_favorite INTEGER
           )
         ''');
         db.execute('''

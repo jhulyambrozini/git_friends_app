@@ -203,9 +203,7 @@ class UserCardWidget extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       onPressed: onToggleFavorite,
-                      child: Text(user.isFavorite
-                          ? 'REMOVER DOS FAVORITOS'
-                          : 'ADICIONAR AOS FAVORITOS'),
+                      child: const Text('ADICIONAR AOS FAVORITOS'),
                     ),
                   ),
                 ],

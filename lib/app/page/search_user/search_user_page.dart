@@ -25,7 +25,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
     _viewModel = _dependencyInjector.injector.get<SearchPageViewModel>();
   }
 
-  Future<dynamic> showUserCard(
+  Future<dynamic> _showUserCard(
       GitUserModel user, List<GitUserReposModel> userRepos) {
     return showDialog(
       context: context,
@@ -33,7 +33,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
         return UserCardWidget(
             user: user,
             userRepos: userRepos,
-            onToggleFavorite: _viewModel.onToggleFavorite);
+            onToggleFavorite: () =>
+                _viewModel.setFavoriteUser(user, userRepos));
       },
     );
   }
@@ -89,7 +90,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
                       _viewModel.onReposSearch();
                       if (_viewModel.listRepos.isNotEmpty &&
                           !_viewModel.isReposLoading) {
-                        showUserCard(_viewModel.gitUser!, _viewModel.listRepos);
+                        _showUserCard(
+                            _viewModel.gitUser!, _viewModel.listRepos);
                       }
                     },
                   ),

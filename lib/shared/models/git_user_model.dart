@@ -12,7 +12,6 @@ class GitUserModel {
   int reposQuantity;
   int followers;
   int following;
-  bool isFavorite;
 
   GitUserModel({
     required this.userId,
@@ -27,7 +26,6 @@ class GitUserModel {
     this.email,
     this.description,
     this.twitter,
-    this.isFavorite = false,
   });
 
   factory GitUserModel.fromJson(Map<String, dynamic> json) {
@@ -49,7 +47,7 @@ class GitUserModel {
 
   @override
   String toString() =>
-      'GitUserModel(userId: $userId, login: $login, avatar: $avatar, url: $url, name: $name, email: $email, blog: $blog, description: $description, twitter: $twitter, reposQuantity: $reposQuantity, followers: $followers, following: $following)';
+      'GitUserModel(userId: $userId, login: $login, avatar: $avatar, url: $url, name: $name, email: $email, blog: $blog, description: $description, twitter: $twitter, reposQuantity: $reposQuantity, followers: $followers, following: $following,)';
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -65,7 +63,6 @@ class GitUserModel {
       'reposQuantity': reposQuantity,
       'followers': followers,
       'following': following,
-      'isFavorite': isFavorite,
     };
   }
 
@@ -84,7 +81,6 @@ class GitUserModel {
       reposQuantity: map['reposQuantity'] as int,
       followers: map['followers'] as int,
       following: map['following'] as int,
-      isFavorite: map['isFavorite'] as bool,
     );
   }
 }
