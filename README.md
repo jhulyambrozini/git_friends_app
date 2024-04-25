@@ -3,7 +3,7 @@ Este projeto foi feito para fins de estudo de desenvolvimento mobile usando flut
 Ele consiste em um aplicativo onde o usuário pode buscar por outros usuários do github e adiciona-los aos favoritos em memória:
 
 #Layout
-![Layout da aplicação](./assets/gitfriends_layou.png)
+![Layout da aplicação](./assets/gitfriends_layout.png)
 
 ## Principais tecnologias usadas
 - **Flutter**:
