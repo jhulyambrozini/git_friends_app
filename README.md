@@ -2,9 +2,6 @@
 Este projeto foi feito para fins de estudo de desenvolvimento mobile usando flutter, arquitetura MVVM e os padrões de projeto Repository e DAO.
 Ele consiste em um aplicativo onde o usuário pode buscar por outros usuários do github e adiciona-los aos favoritos em memória:
 
-#Layout
-![Layout da aplicação](./assets/gitfriends_layout.png)
-
 ## Principais tecnologias usadas
 - **Flutter**:
 Um framework de código aberto desenvolvido pelo Google para criar aplicativos nativos para dispositivos móveis, web e desktop a partir de uma única base de código. Ele utiliza a linguagem de programação Dart e oferece uma ampla gama de widgets personalizáveis para criar interfaces de usuário bonitas e responsivas.
@@ -29,3 +26,5 @@ Uma biblioteca HTTP em Dart para fazer requisições de rede em aplicativos Flut
 - 4 Rode o commando `flutter pub get` para baixar as dependências
 - 5 Rode o commando `flutter run` para iniciar o projeto em modo de desenvolvimmento
 
+# Layout
+![Layout da aplicação](./assets/gitfriends_layout.png)
