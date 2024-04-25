@@ -30,31 +30,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Git Friends'),
-        leading: const Icon(Icons.people_alt_outlined),
-        backgroundColor: theme.colorScheme.background,
-        elevation: 0.5,
-      ),
-      body: _widgetOptions.elementAt(_viewModel.selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _viewModel.selectedIndex,
-        iconSize: 32,
-        type: BottomNavigationBarType.fixed,
-        onTap: _viewModel.onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            label: 'Home',
-            activeIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-          ),
-          BottomNavigationBarItem(
-            label: 'favoritos',
-            activeIcon: Icon(Icons.star),
-            icon: Icon(Icons.star_border_outlined),
-          ),
-        ],
+    return ListenableBuilder(
+      listenable: _viewModel,
+      builder: (ctx, _) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Git Friends'),
+          leading: const Icon(Icons.people_alt_outlined),
+          backgroundColor: theme.colorScheme.background,
+          elevation: 0.5,
+        ),
+        body: _widgetOptions.elementAt(_viewModel.selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _viewModel.selectedIndex,
+          iconSize: 32,
+          type: BottomNavigationBarType.fixed,
+          onTap: _viewModel.onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              label: 'Home',
+              activeIcon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
+            ),
+            BottomNavigationBarItem(
+              label: 'favoritos',
+              activeIcon: Icon(Icons.star),
+              icon: Icon(Icons.star_border_outlined),
+            ),
+          ],
+        ),
       ),
     );
   }

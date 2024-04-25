@@ -6,11 +6,13 @@ class UserCardWidget extends StatelessWidget {
   final GitUserModel user;
   final List<GitUserReposModel> userRepos;
   final void Function() onToggleFavorite;
+  final bool isFavorite;
 
   const UserCardWidget({
     required this.onToggleFavorite,
     required this.user,
     required this.userRepos,
+    required this.isFavorite,
     super.key,
   });
 
@@ -203,7 +205,9 @@ class UserCardWidget extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                       onPressed: onToggleFavorite,
-                      child: const Text('ADICIONAR AOS FAVORITOS'),
+                      child: Text(isFavorite
+                          ? 'REMOVER DOS FAVORITOS'
+                          : 'ADICIONAR AOS FAVORITOS'),
                     ),
                   ),
                 ],

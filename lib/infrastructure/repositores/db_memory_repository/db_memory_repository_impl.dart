@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:git_friend/infrastructure/database/database_helper.dart';
+import 'package:git_friend/infrastructure/database/userDatabaseDao/user_database_dao.dart';
 import 'package:git_friend/infrastructure/repositores/db_memory_repository/db_memory_repository.dart';
 import 'package:git_friend/shared/models/git_user_model.dart';
 import 'package:git_friend/shared/models/git_user_repos_model.dart';
@@ -7,19 +7,25 @@ import 'package:git_friend/shared/utils/result_action_util.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBMemoryRepositoryImpl implements DBMemoryRepository {
-  final DatabaseHelper _db;
+  final UserDatabaseDAO _db;
 
-  DBMemoryRepositoryImpl({required DatabaseHelper db}) : _db = db;
+  DBMemoryRepositoryImpl({required UserDatabaseDAO db}) : _db = db;
 
   @override
   Future<ResultActionDTO> setUserFavorite(
       GitUserModel gitUser, List<GitUserReposModel> repos) async {
     try {
       final user = gitUser.toMap();
-      print(user);
+
+      for (var repo in repos) {
+        repo.userId = gitUser.userId;
+      }
+
+      final repositories = repos.map((e) => e.toMap()).toList();
 
       await _db.insertUser(user);
-      await _db.insertRepository(repos);
+
+      await _db.insertRepository(repositories);
       return ResultActionDTO.success();
     } on DatabaseException catch (error) {
       return ResultActionDTO.failure(error.toString());
@@ -34,7 +40,10 @@ class DBMemoryRepositoryImpl implements DBMemoryRepository {
   @override
   Future<ResultActionDTO> getUsersFavoritesList() async {
     try {
-      final usersList = await _db.getUsers();
+      final response = await _db.getUsers();
+      final usersList =
+          response.map((user) => GitUserModel.fromMap(user)).toList();
+
       return ResultActionDTO.success(data: usersList);
     } on DatabaseException catch (error) {
       return ResultActionDTO.failure(error.toString());
@@ -49,7 +58,11 @@ class DBMemoryRepositoryImpl implements DBMemoryRepository {
   @override
   Future<ResultActionDTO> getUserReposFavoriteList(int userId) async {
     try {
-      final usersReposList = await _db.getRepositoriesByUserId(userId);
+      final response = await _db.getRepositoriesByUserId(userId);
+
+      final usersReposList =
+          response.map((repo) => GitUserReposModel.fromMap(repo)).toList();
+
       return ResultActionDTO.success(data: usersReposList);
     } on DatabaseException catch (error) {
       return ResultActionDTO.failure(error.toString());

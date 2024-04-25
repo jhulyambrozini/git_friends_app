@@ -7,7 +7,7 @@ class FavoritesPageViewModel with ChangeNotifier {
   List<GitUserModel> favoriteUsersList = [];
   List<GitUserReposModel> listRepos = [];
 
-  bool isUserLoading = true;
+  bool isUserLoading = false;
   bool isUserError = false;
   String userError = '';
 
@@ -16,7 +16,6 @@ class FavoritesPageViewModel with ChangeNotifier {
   FavoritesPageViewModel(this._dbMemoryRepository);
 
   Future<void> getfavoriteUsersList() async {
-    isUserLoading = true;
     final result = await _dbMemoryRepository.getUsersFavoritesList();
 
     isUserLoading = false;
@@ -29,6 +28,7 @@ class FavoritesPageViewModel with ChangeNotifier {
     }
 
     favoriteUsersList = [...result.data];
+
     notifyListeners();
     return;
   }
@@ -39,6 +39,7 @@ class FavoritesPageViewModel with ChangeNotifier {
     if (!result.success) return result.message;
 
     listRepos = [...result.data];
+
     notifyListeners();
 
     return null;

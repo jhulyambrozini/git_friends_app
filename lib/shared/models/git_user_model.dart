@@ -51,6 +51,7 @@ class GitUserModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'user_id': userId,
       'login': login,
       'avatar': avatar,
       'url': url,
@@ -59,7 +60,7 @@ class GitUserModel {
       'email': email,
       'description': description,
       'twitter': twitter,
-      'reposQuantity': reposQuantity,
+      'repos_quantity': reposQuantity,
       'followers': followers,
       'following': following,
     };
@@ -67,7 +68,7 @@ class GitUserModel {
 
   factory GitUserModel.fromMap(Map<String, dynamic> map) {
     return GitUserModel(
-      userId: map['userId'] as int,
+      userId: map['user_id'] as int,
       login: map['login'] as String,
       avatar: map['avatar'] as String,
       url: map['url'] as String,
@@ -77,7 +78,7 @@ class GitUserModel {
       description:
           map['description'] != null ? map['description'] as String : null,
       twitter: map['twitter'] != null ? map['twitter'] as String : null,
-      reposQuantity: map['reposQuantity'] as int,
+      reposQuantity: map['repos_quantity'] as int,
       followers: map['followers'] as int,
       following: map['following'] as int,
     );

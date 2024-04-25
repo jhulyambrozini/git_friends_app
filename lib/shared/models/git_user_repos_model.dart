@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:git_friend/shared/utils/date_format.dart';
 
 class GitUserReposModel {
   // https://api.github.com/users/$user/repos
+  int? userId;
   int id;
   String name;
   String url;
@@ -20,6 +19,7 @@ class GitUserReposModel {
     required this.createdAt,
     required this.url,
     required this.updatedAt,
+    int? userId,
   });
 
   factory GitUserReposModel.fromJson(Map<String, dynamic> json) {
@@ -40,25 +40,28 @@ class GitUserReposModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'user_id': userId,
+      'id': id,
       'name': name,
       'url': url,
       'description': description,
       'language': language,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
     };
   }
 
   factory GitUserReposModel.fromMap(Map<String, dynamic> map) {
     return GitUserReposModel(
-      id: map['id'],
+      id: map['id'] as int,
+      userId: map['user_id'] as int,
       name: map['name'] as String,
       url: map['url'] as String,
       description:
           map['description'] != null ? map['description'] as String : null,
       language: map['language'] != null ? map['language'] as String : null,
-      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
-      updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
+      createdAt: map['created_at'] != null ? map['created_at'] as String : null,
+      updatedAt: map['updated_at'] != null ? map['updated_at'] as String : null,
     );
   }
 }

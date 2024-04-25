@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:git_friend/app/page/search_user/search_page_viewmodel.dart';
 import 'package:git_friend/app/widgets/card_user_widget.dart';
+import 'package:git_friend/app/widgets/custom_snackbar.dart';
 import 'package:git_friend/app/widgets/empty_user_list_widget.dart';
 import 'package:git_friend/app/widgets/search_input_widget.dart';
 import 'package:git_friend/app/widgets/user_tile_widget.dart';
 import 'package:git_friend/shared/dependency_injector/dependency_injector.dart';
 import 'package:git_friend/shared/models/git_user_model.dart';
 import 'package:git_friend/shared/models/git_user_repos_model.dart';
+import 'package:git_friend/shared/utils/snackbar_utils.dart';
 
 class SearchUserPage extends StatefulWidget {
   const SearchUserPage({super.key});
@@ -33,9 +35,30 @@ class _SearchUserPageState extends State<SearchUserPage> {
         return UserCardWidget(
             user: user,
             userRepos: userRepos,
-            onToggleFavorite: () => _viewModel.setFavoriteUser(userRepos));
+            isFavorite: false,
+            onToggleFavorite: () async {
+              final navigator = Navigator.of(context);
+
+              final result = await _viewModel.setFavoriteUser(userRepos);
+
+              navigator.pop();
+
+              if (result == null) {
+                _showErrorSnackBar('Não foi possivel favoritar');
+              } else {
+                _showSucessSnackBar('Usuário favoritado com sucesso!');
+              }
+            });
       },
     );
+  }
+
+  _showErrorSnackBar(String errorMessage) {
+    CustomSnackBar(context).show(SnackBarUtils.error(errorMessage));
+  }
+
+  _showSucessSnackBar(String message) {
+    CustomSnackBar(context).show(SnackBarUtils.success(message));
   }
 
   @override
@@ -74,7 +97,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
                     style: theme.textTheme.displayMedium,
                   ),
                 ),
-                if (_viewModel.isUserLoading)
+                if (_viewModel.isUserLoading || _viewModel.isReposLoading)
                   const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -82,13 +105,14 @@ class _SearchUserPageState extends State<SearchUserPage> {
                   Center(
                     child: Text(_viewModel.userError),
                   ),
-                if (_viewModel.gitUser != null && !_viewModel.isUserLoading)
+                if (_viewModel.gitUser != null &&
+                    !_viewModel.isUserLoading &&
+                    !_viewModel.isReposLoading)
                   UserTileWidget(
                     user: _viewModel.gitUser!,
-                    onPressed: () {
-                      _viewModel.onReposSearch();
-                      if (_viewModel.listRepos.isNotEmpty &&
-                          !_viewModel.isReposLoading) {
+                    onPressed: () async {
+                      await _viewModel.onReposSearch();
+                      if (!_viewModel.isReposLoading) {
                         _showUserCard(
                             _viewModel.gitUser!, _viewModel.listRepos);
                       }

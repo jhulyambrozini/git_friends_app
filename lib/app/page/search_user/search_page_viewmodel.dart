@@ -42,11 +42,15 @@ class SearchPageViewModel with ChangeNotifier {
   }
 
   Future<void> onReposSearch() async {
+    isReposLoading = true;
     final result = await _gitRepository.getRepos(_username);
+
+    isReposLoading = false;
 
     if (!result.success) return;
 
     listRepos = [...result.data];
+
     notifyListeners();
 
     return;
